@@ -17,7 +17,10 @@ setBright	KEYWORD2
 setDigitLimit	KEYWORD2
 on	KEYWORD2
 off	KEYWORD2
-printDigit	KEYWORD2
+printInt	KEYWORD2
+printInt	KEYWORD2
+printChar	KEYWORD2
+printString	KEYWORD2
 write	KEYWORD2
 
 #######################################

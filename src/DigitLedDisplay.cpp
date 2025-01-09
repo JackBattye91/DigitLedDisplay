@@ -36,7 +36,6 @@ void DigitLedDisplay::setDigitLimit(int limit) {
 	write(SHUTDOWN_ADDR, 1);
 }
 
-		
 void DigitLedDisplay::on() {
 	write(SHUTDOWN_ADDR, 0x01);
 }
@@ -46,14 +45,19 @@ void DigitLedDisplay::off() {
 }
 
 void DigitLedDisplay::clear() {
-  for (int i = 1; i <=_digitLimit; i++) {
+  for (int i = 1; i <= _digitLimit; i++) {
 	write(i, B00000000);
   }
 }
 
 void DigitLedDisplay::table(byte address, int val) {
 	byte tableValue;
-	tableValue = pgm_read_byte_near(charTable + val);
+	tableValue = pgm_read_byte_near(numTable + val);
+	write(address, tableValue);
+}
+void DigitLedDisplay::table(byte address, char character) {
+	byte tableValue;
+	tableValue = pgm_read_byte_near(charTable + (character - 'A'));
 	write(address, tableValue);
 }
 
@@ -64,7 +68,7 @@ void DigitLedDisplay::write(volatile byte address, volatile byte data) {
 	digitalWrite(CS_PIN, HIGH);
 }
 
-void DigitLedDisplay::printDigit(long number, byte startDigit) {
+void DigitLedDisplay::printInt(long number, byte startDigit) {
 	String figure = String(number);
 	int figureLength = figure.length();
 
@@ -75,5 +79,31 @@ void DigitLedDisplay::printDigit(long number, byte startDigit) {
 		str[1] = '\0';
 		parseInt = (int) strtol(str, NULL, 10);
 		table(figureLength - i + startDigit, parseInt);
+	}
+}
+
+// Need reworking for floats
+void DigitLedDisplay::printFloat(double number, byte startDigit) {
+	String figure = String(number);
+	int figureLength = figure.length();
+	
+	int parseInt;
+	char str[2];
+	for(int i = 0; i < figure.length(); i++) {
+		str[0] = figure[i];
+		str[1] = '\0';
+		parseInt = (int) strtol(str, NULL, 10);
+		table(figureLength - i + startDigit, parseInt);
+	}
+}
+
+void DigitLedDisplay::printChar(char character, byte startDigit) {
+	table(startDigit, character);
+}
+
+// need test for character order
+void DigitLedDisplay::printString(String str, byte startDigit) {
+	for(int i = 0; i < str.length(); i++) {
+		printChar(str[i], i);
 	}
 }
