@@ -24,7 +24,7 @@ const static byte numTable [] PROGMEM = {
 	B01011111, // 6
 	B01110000, // 7
 	B01111111, // 8
-	B01111011, // 9
+	B01111011 // 9
 };
 
 const static byte charTable [] PROGMEM = {
@@ -53,11 +53,11 @@ const static byte charTable [] PROGMEM = {
 	B01111111, // W
 	B00110111, // X
 	B00110011, // Y
-	B01101101, // Z
+	B01101101 // Z
 };
 
 const static byte symbolTable [] PROGMEM = {
-	B00000001, // -
+	B00000001 // -
 };
 
 class DigitLedDisplay
